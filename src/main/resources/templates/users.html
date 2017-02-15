@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html th:lang="#{LANG}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{TITLE_ADD_USER}"></title>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/}">NIPT</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/examination}" th:text="#{INSERT_EXAMINATION}"></a></li>
+            <li><a th:href="@{/choice}" th:text="#{REPORT}"></a></li>
+            <li><a th:href="@{/settings}" th:text="#{SETTINGS}"></a></li>
+            <li class="active"><a th:href="@{/new}" th:text="#{ADD_USER}"></a></li>
+            <li><a th:href="@{/manage}" th:text="#{MANAGE_USERS}"></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span th:text="#{LOG_OUT}" class="glyphicon glyphicon-log-in"></span></a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.nipt.feedback.Feedback>"*/-->
+    <div th:each="feedback : ${feedbackList}">
+        <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading" th:text="#{ADD_USER}"></div>
+        <div class="panel-body">
+            <!--/*@thymesVar id="person" type="ee.nipt.dto.PersonDTO"*/-->
+            <!--/*@thymesVar id="creator" type="ee.nipt.dto.PersonDTO"*/-->
+            <form th:action="@{/new}" th:object="${person}" method="post">
+                <h4 th:text="#{DISCLAIMER_CREATE_USER}"></h4>
+                <label for="firstName"
+                       th:text="#{FIRST_NAME}"
+                       th:classappend="${#fields.hasErrors('firstName')}?'invalid'">
+                </label>
+                <input id="firstName"
+                       th:field="*{firstName}"
+                       type="text"
+                       required="required"
+                       class="form-control"/>
+                <label for="lastName"
+                       th:text="#{LAST_NAME}"
+                       th:classappend="${#fields.hasErrors('lastName')}?'invalid'">
+                </label>
+                <input id="lastName"
+                       th:field="*{lastName}"
+                       type="text"
+                       required="required"
+                       class="form-control"/>
+                <label for="identificationCode"
+                       th:text="#{IDENTIFICATION_CODE}"
+                       th:classappend="${#fields.hasErrors('identificationCode')}?'invalid'">
+                </label>
+                <input id="identificationCode"
+                       th:field="*{identificationCode}"
+                       type="text"
+                       required="required"
+                       class="form-control"
+                       minlength="11"/>
+                <label for="email"
+                       th:text="#{EMAIL}"
+                       th:classappend="${#fields.hasErrors('email')}?'invalid'">
+                </label>
+                <input id="email"
+                       th:field="*{email}"
+                       type="email"
+                       required="required"
+                       class="form-control"/>
+                <fieldset>
+                    <legend th:text="#{CLEARANCE}"></legend>
+                    <label for="view" th:text="#{ACCESS_VIEW_REPORT}"></label>
+                    <input id="view"
+                           th:field="*{canViewReport}"
+                           type="checkbox"
+                           th:checked="${person.getCanViewReport()}? 'checked'"
+                           th:disabled="${!creator.getCanViewReport()}"/>
+                    <label for="create" th:text="#{ACCESS_CREATE_REPORT}"></label>
+                    <input id="create"
+                           th:field="*{canCreateReport}"
+                           type="checkbox"
+                           th:checked="${person.getCanCreateReport()}? 'checked'"
+                           th:disabled="${!creator.getCanCreateReport()}"/>
+
+                    <label for="upload" th:text="#{ACCESS_CREATE_EXAMINATION}"></label>
+                    <input id="upload"
+                           th:field="*{canCreateExamination}"
+                           type="checkbox"
+                           th:checked="${person.getCanCreateExamination()}? 'checked'"
+                           th:disabled="${!creator.getCanCreateExamination()}"/>
+                    <label for="add" th:text="#{ACCESS_ADD_USER}"></label>
+                    <input id="add"
+                           th:field="*{canAddUsers}"
+                           type="checkbox"
+                           th:checked="${person.getCanAddUsers()}? 'checked'"
+                           th:disabled="${!creator.getCanAddUsers()}"/>
+                </fieldset>
+                <input type="submit"
+                       class="btn btn-primary"
+                       th:value="#{BUTTON_SEND_TO_USER}"/>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

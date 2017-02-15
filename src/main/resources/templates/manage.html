@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html th:lang="#{LANG}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{TITLE_MANAGE}"></title>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/}">NIPT</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/examination}" th:text="#{INSERT_EXAMINATION}"></a></li>
+            <li><a th:href="@{/choice}" th:text="#{REPORT}"></a></li>
+            <li><a th:href="@{/settings}" th:text="#{SETTINGS}"></a></li>
+            <li><a th:href="@{/new}" th:text="#{ADD_USER}"></a></li>
+            <li class="active"><a th:href="@{/manage}" th:text="#{MANAGE_USERS}"></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span th:text="#{LOG_OUT}" class="glyphicon glyphicon-log-in"></span></a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.nipt.feedback.Feedback>"*/-->
+    <div th:each="feedback : ${feedbackList}">
+        <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading" th:text="#{MANAGE_USERS}"></div>
+        <div class="panel-body">
+            <!--/*@thymesVar id="creator" type="ee.nipt.dto.PersonDTO"*/-->
+            <!--/*@thymesVar id="persons" type="ee.nipt.dto.PersonsDTO"*/-->
+            <form th:action="@{/manage}" th:object="${persons}" method="post" class="smaller">
+                <h4 th:text="#{DISCLAIMER_CREATE_USER}"></h4>
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                    <tr>
+                        <th th:text="#{IDENTIFICATION_CODE}"></th>
+                        <th th:text="#{FIRST_NAME}"></th>
+                        <th th:text="#{LAST_NAME}"></th>
+                        <th th:text="#{EMAIL}"></th>
+                        <th th:text="#{CLEARANCE}"></th>
+                    </tr>
+                    <tr th:each="subordinate, stat : ${persons.getPersons()}"
+                        th:if="${not #lists.isEmpty(persons.getPersons())}">
+                        <td th:text="${persons.getPersons().get(stat.index).getIdentificationCode()}"></td>
+                        <td th:text="${persons.getPersons().get(stat.index).getFirstName()}"></td>
+                        <td th:text="${persons.getPersons().get(stat.index).getLastName()}"></td>
+                        <td th:text="${persons.getPersons().get(stat.index).getEmail()}"></td>
+                        <td>
+                            <input type="hidden" th:field="*{persons[__${stat.index}__].identificationCode}"
+                                   th:value="${persons.getPersons().get(stat.index).getIdentificationCode()}"/>
+
+                            <label th:for="'v' + ${persons.getPersons().get(stat.index).getIdentificationCode()}"
+                                   th:text="#{ACCESS_VIEW_REPORT}"></label>
+                            <input th:id="'v' + ${persons.getPersons().get(stat.index).getIdentificationCode()}"
+                                   type="checkbox"
+                                   th:field="*{persons[__${stat.index}__].canViewReport}"
+                                   th:value="true"
+                                   th:checked="${persons.getPersons().get(stat.index).getCanViewReport()}? 'checked'"
+                                   th:disabled="${!creator.getCanViewReport()}"/>
+
+                            <label th:for="'c' + ${persons.getPersons().get(stat.index).getIdentificationCode()}"
+                                   th:text="#{ACCESS_CREATE_REPORT}"></label>
+                            <input th:id="'c' + ${persons.getPersons().get(stat.index).getIdentificationCode()}"
+                                   type="checkbox"
+                                   th:field="*{persons[__${stat.index}__].canCreateReport}"
+                                   th:value="true"
+                                   th:checked="${persons.getPersons().get(stat.index).getCanCreateReport()}? 'checked'"
+                                   th:disabled="${!creator.getCanCreateReport()}"/>
+
+                            <label th:for="'e' + ${persons.getPersons().get(stat.index).getIdentificationCode()}"
+                                   th:text="#{ACCESS_CONFIRM_REPORT}"></label>
+                            <input th:id="'e' + ${persons.getPersons().get(stat.index).getIdentificationCode()}"
+                                   type="checkbox"
+                                   th:field="*{persons[__${stat.index}__].canCreateExamination}"
+                                   th:value="true"
+                                   th:checked="${persons.getPersons().get(stat.index).getCanCreateExamination()}? 'checked'"
+                                   th:disabled="${!creator.getCanCreateExamination()}"/>
+
+                            <label th:for="'a' + ${persons.getPersons().get(stat.index).getIdentificationCode()}"
+                                   th:text="#{ACCESS_ADD_USER}"></label>
+                            <input th:id="'a' + ${persons.getPersons().get(stat.index).getIdentificationCode()}"
+                                   type="checkbox"
+                                   th:field="*{persons[__${stat.index}__].canAddUsers}"
+                                   th:value="true"
+                                   th:checked="${persons.getPersons().get(stat.index).getCanAddUsers()}? 'checked'"
+                                   th:disabled="${!creator.getCanAddUsers()}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" th:value="#{UPDATE}"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

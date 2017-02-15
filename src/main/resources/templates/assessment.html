@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html th:lang="#{LANG}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{TITLE_REPORT}"></title>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/}">NIPT</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/examination}" th:text="#{INSERT_EXAMINATION}"></a></li>
+            <li class="active"><a th:href="@{/choice}" th:text="#{REPORT}"></a></li>
+            <li><a th:href="@{/settings}" th:text="#{SETTINGS}"></a></li>
+            <li><a th:href="@{/new}" th:text="#{ADD_USER}"></a></li>
+            <li><a th:href="@{/manage}" th:text="#{MANAGE_USERS}"></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span th:text="#{LOG_OUT}" class="glyphicon glyphicon-log-in"></span></a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <!--/*@thymesVar id="examination" type="ee.nipt.dto.ReportDTO"*/-->
+    <!--/*@thymesVar id="data" type="ee.nipt.dto.DataDTO"*/-->
+    <!--/*@thymesVar id="run" type="ee.nipt.dto.RunDTO"*/-->
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h3 th:text="#{PATIENT_ID}+': '+${examination.getPatientId()}"></h3>
+            <h3 th:text="#{SAMPLE_NUMBER}+': '+${examination.getSampleNumber()}"></h3>
+            <h3 th:text="#{TEST_TYPE}+': '+${run.getTestType()}"></h3>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                <tr>
+                    <th th:text="#{PATIENT}"></th>
+                    <th th:text="#{PATIENT}"></th>
+                    <th th:text="#{TEST}"></th>
+                    <th th:text="#{TEST}"></th>
+                    <th th:text="#{TEST}"></th>
+                </tr>
+                <tr>
+                    <td th:text="#{PHYSICIAN_ID}+': '+${examination.getPhysicianId()}"></td>
+                    <td th:text="${examination.getHasOneFetus()}?#{FETUS_COUNT}+': '+#{YES}:#{FETUS_COUNT}+': '+#{NO}"></td>
+                    <td th:text="#{DATE_OF_SAMPLING}+': '+${examination.getDateOfSampling()}"></td>
+                    <td th:text="#{UNIQUE_READS_PER_SNP}+': '+${data.getUniqueReadsPerSNP()}"></td>
+                    <td th:text="#{Q_SCORE}+': '+${run.getQScore()}"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{PREGNANCY_LENGTH}+': '+${examination.getPregnancyLength()}"></td>
+                    <td th:text="${examination.getHasTumor()}?#{KNOWN_TUMOR}+': '+#{YES}:#{KNOWN_TUMOR}+': '+#{NO}"></td>
+                    <td th:text="#{SAMPLE_ARRIVAL_DATE}+': '+${examination.getSampleArrivalDate()}"></td>
+                    <td th:text="#{RAW_READS}+': '+${data.getRawReads()}"></td>
+
+                    <td th:text="#{LOT}+': '+${data.getLot()}"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{ORIGIN}+': '+${examination.getNationality()}"></td>
+                    <td th:text="${examination.getHasHsct()}?#{HSCT}+': '+#{YES}:#{HSCT}+': '+#{NO}"></td>
+                    <td th:text="#{DNA_EXTRACTION}+': ' + ${data.getDnaSeparation()}"></td>
+                    <td th:text="#{SNP}+': '+${data.getSnp()}"></td>
+                    <td th:text="#{DATA_ID}+': '+${data.getDataId()}"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{PATIENT_DATE_BIRTH}+': '+${examination.getPatientDateOfBirth()}"></td>
+                    <td th:text="${examination.getHasIvf()}?#{HAD_IVF}+': '+#{YES}:#{HAD_IVF}+': '+#{NO}"></td>
+                    <td th:text="#{DATE_OF_ILLUMINA_RUN}+': '+${run.getDateOfRun()}"></td>
+                    <td th:text="#{NUMBER_OF_DIFFERENT_SNP}+': '+${data.getInformativeSnp()}"></td>
+                    <td th:text="#{RUN_ID}+': '+${run.getRunId()}"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{BMI}+': '+${examination.getBmi()}"></td>
+                    <td></td>
+                    <td></td>
+                    <td th:text="#{PCR_REDUNDANCY}+': '+${data.getPcrRedundancy()}"></td>
+                    <td th:text="#{BARCODE}+': '+${data.getBarcode()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div th:each="ch : ${run.getChromosomes()}" class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th th:text="#{CHROMOSOME}+' ' + ${ch.getChromosomeNumber()}"></th>
+                </tr>
+                <tr>
+                    <td th:text="#{SCORE}+' 1: '+${ch.getScore1()}"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{SCORE}+' 2: '+${ch.getScore2()}"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{SCORE}+' 3: '+${ch.getScore3()}"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{SCORE}+' 4: '+${ch.getScore4()}"></td>
+                </tr>
+                <tr>
+                    <td><img class="img-responsive"
+                             th:src="${ch.getPlot()}"
+                             th:alt="#{PLOT}+' '+${ch.getChromosomeNumber()}"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h4 th:text="#{SPECIALIST_NAME}+' :'+${examination.getExpertId()}"></h4>
+            <h4 th:text="#{DECISION}+': '+${examination.getDecision()}"></h4>
+            <div class="center smaller" th:text="${examination.getExpertAssessment()}"></div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <!--/*@thymesVar id="assessment" type="ee.nipt.dto.AssessmentDTO"*/-->
+            <form th:action="@{/confirm}" th:object="${assessment}" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <label for="confirm" class="col-form-label col-sm-2" th:text="#{ASSESSMENT}"></label>
+                    <div class="col-sm-10">
+                        <input id="confirm"
+                               th:field="*{text}"
+                               type="text"
+                               th:placeholder="#{ASSESSMENT}"
+                               class="form-control"
+                               required="required"
+                               maxlength="5000"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="decision" class="col-form-label col-sm-2" th:text="#{DECISION}"></label>
+                    <div class="col-sm-10">
+                        <!--/*@thymesVar id="DECISION_NAME" type="java.lang.String"*/-->
+                        <select id="decision"
+                                th:field="*{isNormal}"
+                                class="form-control"
+                                th:name="${DECISION_NAME}">
+                            <option
+                                    th:text="#{NORMAL}"
+                                    th:value="true">
+                            </option>
+                            <option
+                                    th:text="#{ABNORMAL}"
+                                    th:value="false">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <input type="hidden"
+                           th:field="*{sampleNumber}"/>
+                    <input type="hidden"
+                           th:field="*{dataId}"/>
+                    <input type="hidden"
+                           th:field="*{runId}"/>
+                </div>
+                <input type="submit" class="btn btn-primary"
+                       th:value="#{CONFIRM_AND_SEND_TO}+': ' + ${examination.getEmail()}"/>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

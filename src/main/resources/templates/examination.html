@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html th:lang="#{LANG}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{TITLE_EXAMINATION}"></title>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{css/main.css}"/>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/}">NIPT</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a th:href="@{/examination}" th:text="#{INSERT_EXAMINATION}"></a></li>
+            <li><a th:href="@{/choice}" th:text="#{REPORT}"></a></li>
+            <li><a th:href="@{/settings}" th:text="#{SETTINGS}"></a></li>
+            <li><a th:href="@{/new}" th:text="#{ADD_USER}"></a></li>
+            <li><a th:href="@{/manage}" th:text="#{MANAGE_USERS}"></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span th:text="#{LOG_OUT}" class="glyphicon glyphicon-log-in"></span></a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.nipt.feedback.Feedback>"*/-->
+    <div th:each="feedback : ${feedbackList}">
+        <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading" th:text="#{INSERT_EXAMINATION}"></div>
+        <div class="panel-body">
+            <!--/*@thymesVar id="examinationDTO" type="ee.nipt.dto.ExaminationDTO"*/-->
+            <form th:action="@{/examination}" th:object="${examinationDTO}" method="post">
+                <div class="form-group">
+                    <label for="inserter" th:text="#{EXAMINATOR}"></label>
+                    <!--/*@thymesVar id="examinator" type="ee.nipt.dto.PersonDTO"*/-->
+                    <input id="inserter" type="text" disabled="disabled" class="form-control"
+                           th:value="${examinator.getIdentificationCode()}"/>
+                </div>
+                <div class="form-group">
+                    <label for="patientId"
+                           th:text="#{PATIENT_ID}"
+                           th:classappend="${#fields.hasErrors('patientId')}?'invalid'">
+                    </label>
+                    <input id="patientId"
+                           th:field="*{patientId}"
+                           type="text" required="required" class="form-control" minlength="11"/>
+                </div>
+                <div class="form-group">
+                    <label for="sample"
+                           th:text="#{SAMPLE_CODE_AND_TIME}"
+                           th:classappend="${#fields.hasErrors('sampleNumber')}?'invalid'">
+                    </label>
+                    <input id="sample" th:field="*{sampleNumber}" type="text" required="required" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <!--/*@thymesVar id="iso" type="java.util.Map"*/-->
+                    <label for="nationality"
+                           th:text="#{ORIGIN}"
+                           th:classappend="${#fields.hasErrors('nationality')}?'invalid'">
+                    </label>
+                    <select id="nationality" th:field="*{nationality}" class="form-control">
+                        <option th:each="countryLongName : ${iso.keySet()}"
+                                th:with="code = ${iso.get(countryLongName)}"
+                                th:value="${code}"
+                                th:text="${countryLongName}"
+                                th:selected="${examinationDTO.getNationality().equals(code)}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bmi" th:text="#{BMI_BEFORE_PREGNANCY}"
+                           th:classappend="${#fields.hasErrors('bmi')}?'invalid'">
+                    </label>
+                    <input id="bmi" th:field="*{bmi}" type="number" required="required" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="pregnancyLength"
+                           th:text="#{PREGNANCY_LENGTH_AT_TEST}"
+                           th:classappend="${#fields.hasErrors('pregnancyLength')}?'invalid'">
+                    </label>
+                    <input id="pregnancyLength"
+                           th:field="*{pregnancyLength}" type="number" required="required" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3"><label th:text="#{FETUS_COUNT}"
+                                                     th:classappend="${#fields.hasErrors('hasOneFetus')}?'invalid'">
+                        </label></div>
+                        <div class="col-sm-1">
+
+                            <label th:text="#{ONE}" for="fetusOne"></label>
+                            <input id="fetusOne" th:field="*{hasOneFetus}" th:value="true"
+                                   type="radio" required="required"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <label th:text="#{MORE}" for="fetusMore"></label>
+                            <input id="fetusMore" th:field="*{hasOneFetus}" th:value="false"
+                                   type="radio" required="required"/>
+                        </div>
+                        <div class="col-sm-6"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label th:text="#{KNOWN_TUMOR}"
+                                   th:classappend="${#fields.hasErrors('hasTumor')}?'invalid'">
+                            </label>
+                        </div>
+                        <div class="col-sm-1">
+                            <label th:text="#{YES}" for="tumorPos"></label>
+                            <input id="tumorPos" th:field="*{hasTumor}" th:value="true" type="radio"
+                                   required="required"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <label th:text="#{NO}" for="tumorNeg"></label>
+                            <input id="tumorNeg" th:field="*{hasTumor}" th:value="false" type="radio"
+                                   required="required"/>
+                        </div>
+                        <div class="col-sm-6">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+
+                            <label th:text="#{HSCT}"
+                                   th:classappend="${#fields.hasErrors('hasHsct')}?'invalid'">
+                            </label>
+                        </div>
+                        <div class="col-sm-1">
+                            <label th:text="#{YES}" for="hsctPos"></label>
+                            <input id="hsctPos"
+                                   th:field="*{hasHsct}" th:value="true" type="radio" required="required"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <label th:text="#{NO}" for="hsctNeg"></label>
+                            <input id="hsctNeg" th:field="*{hasHsct}" th:value="false" type="radio"
+                                   required="required"/>
+                        </div>
+                        <div class="col-sm-6">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label th:text="#{HAD_IVF}"
+                                   th:classappend="${#fields.hasErrors('hasIvf')}?'invalid'">
+                            </label>
+                        </div>
+                        <div class="col-sm-1">
+                            <label th:text="#{YES}" for="ivfPos"></label>
+                            <input id="ivfPos" th:field="*{hasIvf}" th:value="true" type="radio" required="required"/>
+
+                        </div>
+                        <div class="col-sm-2">
+                            <label th:text="#{NO}" for="ivfNeg"></label>
+                            <input id="ivfNeg" th:value="false" th:field="*{hasIvf}" type="radio" required="required"/>
+                        </div>
+                        <div class="col-sm-6">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email" th:text="#{DOCTOR_EMAIL}"
+                           th:classappend="${#fields.hasErrors('email')}?'invalid'">
+                    </label>
+                    <input id="email" th:field="*{email}" type="email" required="required" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" th:value="#{SUBMIT_EXAMINATION}"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

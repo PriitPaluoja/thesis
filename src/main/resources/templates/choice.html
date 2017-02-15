@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html th:lang="#{LANG}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{TITLE_CHOICE}"></title>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/}">NIPT</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/examination}" th:text="#{INSERT_EXAMINATION}"></a></li>
+            <li class="active"><a th:href="@{/choice}" th:text="#{REPORT}"></a></li>
+            <li><a th:href="@{/settings}" th:text="#{SETTINGS}"></a></li>
+            <li><a th:href="@{/new}" th:text="#{ADD_USER}"></a></li>
+            <li><a th:href="@{/manage}" th:text="#{MANAGE_USERS}"></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span th:text="#{LOG_OUT}" class="glyphicon glyphicon-log-in"></span></a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.nipt.feedback.Feedback>"*/-->
+    <div th:each="feedback : ${feedbackList}">
+        <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading" th:text="#{CREATE_OR_ADD_REPORT}"></div>
+        <div class="panel-body">
+            <!--/*@thymesVar id="choice" type="ee.nipt.dto.ChoiceDTO"*/-->
+            <form th:action="@{/choice}" th:object="${choice}" method="post" class="smaller">
+                <div class="form-group">
+                    <label for="patientId"
+                           th:text="#{PATIENT_ID}"
+                           th:classappend="${#fields.hasErrors('patientId')}?'invalid'">
+                    </label>
+                    <input id="patientId"
+                           th:field="*{patientId}"
+                           type="text"
+                           required="required"
+                           class="form-control"
+                           th:placeholder="#{PATIENT_ID}"
+                           minlength="11"/>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" th:value="#{QUERY_EXAMINATIONS}"/>
+                </div>
+                <div class="form-group">
+                    <label for="patientExaminationIds"
+                           th:text="#{CHOOSE_EXAMINATION}"></label>
+                    <select id="patientExaminationIds"
+                            class="form-control"
+                            th:field="*{selectedId}">
+                        <option th:each="type : ${choice.getIds()}"
+                                th:value="${type}"
+                                th:text="${type}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="ac" value="eval" class="btn btn-danger"
+                            th:text="#{EVALUATE_PATIENT}"></button>
+                    <button type="submit" name="ac" value="show" class="btn btn-primary"
+                            th:text="#{SHOW_REPORT}"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
