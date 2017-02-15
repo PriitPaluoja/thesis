@@ -5,8 +5,8 @@ Sammu 1 võib vahele jätta, kui JDK (Java Development Kit) 8 on juba installeer
 Sammud veebirakenduse käivitamiseks operatsioonisüsteemil Ubuntu 16.04:
 
 1. $ sudo apt install openjdk-8-jdk
-2. $ git clone https://github.com/PriitPaluoja/bachelor_thesis.git
-3. $ cd bachelor_thesis
+2. $ git clone https://github.com/PriitPaluoja/thesis.git
+3. $ cd thesis
 4. $ chmod +x deploy-local.sh
 5. $ chmod +x gradlew
 6. $ ./deploy-local.sh
