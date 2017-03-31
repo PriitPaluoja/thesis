@@ -188,13 +188,13 @@ VALUES (1, 'NIPT', 1, '2017-01-18', 98, 'M', 0.15);
 
 INSERT INTO public.chromosome (id, run_id, ch_number, score_1, score_2, score_3, score_4, plot) VALUES
   (1, 1, 2, 98, 99, 100, 98,
-   'http://2.bp.blogspot.com/-w1h3x3rpOLY/TbXVEHCr1cI/AAAAAAAALqI/wiQqpr1HJ6c/s1600/2011-04-19+GGD+manhattan4.png');
+   'http://kodu.ut.ee/~ppaluoja/hmm1.PNG');
 INSERT INTO public.chromosome (id, run_id, ch_number, score_1, score_2, score_3, score_4, plot) VALUES
   (2, 1, 3, 87, 98, 99, 97,
-   'http://2.bp.blogspot.com/-w1h3x3rpOLY/TbXVEHCr1cI/AAAAAAAALqI/wiQqpr1HJ6c/s1600/2011-04-19+GGD+manhattan4.png');
+   'http://kodu.ut.ee/~ppaluoja/hmm2.PNG');
 INSERT INTO public.chromosome (id, run_id, ch_number, score_1, score_2, score_3, score_4, plot) VALUES
   (3, 1, 13, 87, 78, 88, 67,
-   'http://2.bp.blogspot.com/-w1h3x3rpOLY/TbXVEHCr1cI/AAAAAAAALqI/wiQqpr1HJ6c/s1600/2011-04-19+GGD+manhattan4.png');
+   'http://kodu.ut.ee/~ppaluoja/hmm1.PNG');
 
 INSERT INTO public.person (identification_code, first_name, last_name, email, pswd_hash, language, creator) VALUES
   ('11111111111', 'Test', 'Aavik', 'pr11t@tdl.ee', '$2a$10$EDrzTU9uuUYS89ZKIt54K.bzinFFpcd.9SM0GaT1hUs2NC1kAmqFy', 'ET',
