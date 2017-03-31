@@ -194,7 +194,7 @@ INSERT INTO public.chromosome (id, run_id, ch_number, score_1, score_2, score_3,
    'http://kodu.ut.ee/~ppaluoja/hmm2.PNG');
 INSERT INTO public.chromosome (id, run_id, ch_number, score_1, score_2, score_3, score_4, plot) VALUES
   (3, 1, 13, 87, 78, 88, 67,
-   'http://kodu.ut.ee/~ppaluoja/hmm1.PNG');
+   'http://kodu.ut.ee/~ppaluoja/hmm3.PNG');
 
 INSERT INTO public.person (identification_code, first_name, last_name, email, pswd_hash, language, creator) VALUES
   ('11111111111', 'Test', 'Aavik', 'pr11t@tdl.ee', '$2a$10$EDrzTU9uuUYS89ZKIt54K.bzinFFpcd.9SM0GaT1hUs2NC1kAmqFy', 'ET',
