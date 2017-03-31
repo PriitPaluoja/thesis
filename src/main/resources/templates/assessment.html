@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <td th:text="#{PHYSICIAN_ID}+': '+${examination.getPhysicianId()}"></td>
-                    <td th:text="${examination.getHasOneFetus()}?#{FETUS_COUNT}+': '+#{YES}:#{FETUS_COUNT}+': '+#{NO}"></td>
+                    <td th:text="${examination.getHasOneFetus()}?#{FETUS_COUNT_ONE}+': '+#{YES}:#{FETUS_COUNT_ONE}+': '+#{NO}"></td>
                     <td th:text="#{DATE_OF_SAMPLING}+': '+${examination.getDateOfSampling()}"></td>
                     <td th:text="#{UNIQUE_READS_PER_SNP}+': '+${data.getUniqueReadsPerSNP()}"></td>
                     <td th:text="#{Q_SCORE}+': '+${run.getQScore()}"></td>
