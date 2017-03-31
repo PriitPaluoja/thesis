@@ -114,9 +114,9 @@
             </table>
         </div>
     </div>
-    <div class="panel panel-default">
+    <div th:if="${examination.getExpertId()}" class="panel panel-default">
         <div class="panel-body">
-            <h4 th:text="#{SPECIALIST_NAME}+' :'+${examination.getExpertId()}"></h4>
+            <h4 th:text="#{SPECIALIST_NAME}+': '+${examination.getExpertId()}"></h4>
             <h4 th:text="#{DECISION}+': '+${examination.getDecision()}"></h4>
             <div class="center smaller" th:text="${examination.getExpertAssessment()}"></div>
         </div>
