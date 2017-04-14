@@ -11,7 +11,7 @@ Juhised veebirakenduse käivitamiseks operatsioonisüsteemil Ubuntu 16.04:
 5. $ chmod +x gradlew
 6. $ ./deploy-local.sh
 
-Pärast juhiste täitmist pääseb veebirakendusele ligi aadressil http://localhost:8080/ kasutajanimega admin@admin ning parooliga Fahrenheit451. Näidisraport on leitav koodi 11111111111 alt.
+Pärast juhiste täitmist pääseb veebirakendusele ligi aadressil http://localhost:8080/ kasutajanimega admin@admin ning parooliga Fahrenheit451. Näidisraport on leitav isikukoodi 11111111111 alt.
 
 * Patsiendi ülevaatuse sisestamise aadress: http://localhost:8080/examination
 * Raporti loomise ja vaatamise aadress: http://localhost:8080/choice 
